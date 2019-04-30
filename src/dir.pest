@@ -1,0 +1,35 @@
+WHITESPACE = _{ " " }
+
+statement   = { SOI ~ expressions ~ EOI}
+expressions = {(expression ~ "then") * ~ expression}
+expression  = { if_ | while_ | repeat | let_ | actions }
+
+if_          = { "if " ~ cond ~ "do" ~ "(" ~ expressions ~ ")" ~ ("else" ~ "(" ~ expressions ~ ")")? }
+while_      = { "while" ~  cond ~ "do" ~ "(" ~ expressions ~ ")" }
+repeat      = { "(" ~ expressions ~ ")" ~ "::" ~ nat }
+let_         = { "let" ~ var ~ "=" ~ expressions ~ "in" ~ expressions}
+
+
+cond = { "(" ~ (spot | num) ~ comp ~ (spot | num) ~")"}
+var = { ASCII_ALPHA+ }
+nat = { ASCII_DIGIT+ }
+num = { int ~ ("." ~ ASCII_DIGIT*)? }
+    int = { ("+" | "-")? ~ ASCII_DIGIT+ }
+
+spot = { xspot | yspot }
+    xspot = { ^"X" }
+    yspot = { ^"Y" }
+
+comp = {gt | lt | ge | le | eq }
+    gt = { ">" }
+    lt = { "<" }
+    ge = { ">=" }
+    le = { "<=" }
+    eq = { "==" }
+
+actions  =  { action ~ ("," ~ action)*}
+action   =  {up | down | left | right}
+    up    = { "up" ~ "(" ~ nat ~ ")" }
+    down  = { "down" ~ "(" ~ nat ~ ")" }
+    left  = { "left" ~ "(" ~ nat ~ ")" }
+    right = { "right" ~ "(" ~ nat ~ ")" }

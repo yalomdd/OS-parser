@@ -1,0 +1,9 @@
+[package]
+name = "csv-tool"
+version = "0.1.0"
+authors = ["yalomdd <yalomdd@hendrix.edu>"]
+edition = "2018"
+
+[dependencies]
+pest = "2.0"
+pest_derive = "2.0"
